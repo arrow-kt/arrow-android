@@ -2,8 +2,10 @@ name: "Check Build Integration"
 
 on:
   push:
-    branches:
-    - master
+    branches-ignore:
+    - '**'
+    # branches:
+    # - master
 
 jobs:
   check-build-integration:

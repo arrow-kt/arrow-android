@@ -2,8 +2,10 @@ name: "Check Doc Integration"
 
 on:
   push:
-    branches:
-    - master
+    branches-ignore:
+    - '**'
+    # branches:
+    # - master
 
 jobs:
   check-doc-integration:

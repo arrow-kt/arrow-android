@@ -2,8 +2,10 @@ name: "arrow-android: publish in OSS"
 
 on:
   push:
-    branches:
-    - master
+    branches-ignore:
+    - '**'
+    # branches:
+    # - master
 
 jobs:
   arrow-android_publish:

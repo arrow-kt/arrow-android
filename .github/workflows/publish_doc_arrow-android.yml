@@ -2,8 +2,10 @@ name: "arrow-android: publish documentation"
 
 on:
   push:
-    branches:
-    - master
+    branches-ignore:
+    - '**'
+    # branches:
+    # - master
 
 jobs:
   arrow-android_publish_documentation:
