@@ -17,7 +17,7 @@ import arrow.fx.fix
  * @see [IO.unsafeRunAsyncCancellable] for a version that returns the cancellation token instead.
  */
 fun <A> LifecycleOwner.unsafeRunIO(io: IOOf<A>, cb: (Either<Throwable, A>) -> Unit): Unit =
-  io.unsafeRunScoped(this, cb)
+    io.unsafeRunScoped(this, cb)
 
 /**
  * Unsafely run an [IO] and receive the values in a callback [cb] while participating in structured concurrency.
@@ -27,19 +27,19 @@ fun <A> LifecycleOwner.unsafeRunIO(io: IOOf<A>, cb: (Either<Throwable, A>) -> Un
  * @see [IO.unsafeRunAsyncCancellable] for a version that returns the cancellation token instead.
  */
 fun <A> IOOf<A>.unsafeRunScoped(
-  owner: LifecycleOwner,
-  cb: (Either<Throwable, A>) -> Unit
+    owner: LifecycleOwner,
+    cb: (Either<Throwable, A>) -> Unit
 ) {
-  if (owner.lifecycle.currentState.isAtLeast(State.CREATED)) {
-    val disposable = fix().unsafeRunAsyncCancellable(cb = cb)
+    if (owner.lifecycle.currentState.isAtLeast(State.CREATED)) {
+        val disposable = fix().unsafeRunAsyncCancellable(cb = cb)
 
-    owner.lifecycle.addObserver(object : LifecycleEventObserver {
-      override fun onStateChanged(source: LifecycleOwner, event: Event) {
-        if (event == Event.ON_DESTROY) {
-          source.lifecycle.removeObserver(this)
-          disposable()
-        }
-      }
-    })
-  }
+        owner.lifecycle.addObserver(object : LifecycleEventObserver {
+            override fun onStateChanged(source: LifecycleOwner, event: Event) {
+                if (event == Event.ON_DESTROY) {
+                    source.lifecycle.removeObserver(this)
+                    disposable()
+                }
+            }
+        })
+    }
 }
